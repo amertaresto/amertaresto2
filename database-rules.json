@@ -1,0 +1,60 @@
+{
+  "rules": {
+    // Public read untuk menu dan info restaurant (tidak sensitive)
+    "menu": {
+      ".read": true,
+      ".write": false
+    },
+    "restaurant_info": {
+      ".read": true,
+      ".write": false
+    },
+    
+    // User data - hanya user yang bersangkutan yang bisa akses
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid && auth != null",
+        ".validate": "newData.hasChildren(['namaLengkap', 'email'])"
+      }
+    },
+    
+    // Reservations - user bisa buat dan baca reservasi sendiri
+    "reservations": {
+      "$reservation_id": {
+        ".read": "auth != null && data.child('userId').val() === auth.uid",
+        ".write": "auth != null && (
+          // Buat reservasi baru
+          (!data.exists() && newData.child('userId').val() === auth.uid) ||
+          // Update reservasi sendiri
+          (data.exists() && data.child('userId').val() === auth.uid)
+        )",
+        ".validate": "newData.hasChildren(['userId', 'nama', 'email', 'tanggal', 'waktu', 'jumlahOrang'])"
+      }
+    },
+    
+    // Orders - user bisa buat dan baca order sendiri
+    "orders": {
+      "$order_id": {
+        ".read": "auth != null && data.child('userId').val() === auth.uid",
+        ".write": "auth != null && (
+          (!data.exists() && newData.child('userId').val() === auth.uid) ||
+          (data.exists() && data.child('userId').val() === auth.uid)
+        )",
+        ".validate": "newData.hasChildren(['userId', 'items', 'total', 'status'])"
+      }
+    },
+    
+    // Admin area (jika ada admin panel nanti)
+    "admin": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).exists()",
+      ".write": "auth != null && root.child('admins').child(auth.uid).exists()"
+    },
+    
+    // Default deny all other access
+    "$other": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

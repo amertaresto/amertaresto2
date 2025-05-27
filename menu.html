@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="menu, makanan, amerta restaurant, kuliner nusantara" />
+  <meta name="description" content="Menu Lengkap Amerta Restaurant - Cita Rasa Nusantara Terbaik" />
+  <meta name="author" content="Amerta Restaurant" />
+
+  <title>Menu - Amerta Restaurant</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- slick slider -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha256-UK1EiopXIL+KVhfbFa8xrmAWPeBjMVdvYMYkTAEv/HI=" crossorigin="anonymous" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              Amerta Restaurant
+            </span>
+          </a>
+          <div class="" id="">
+            <div class="User_option">
+              <a href="login.html">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>Login</span>
+              </a>
+              <form class="form-inline ">
+                <a href="cart.html" class="btn nav_cart-btn" type="button">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  <span class="cart-count" id="cartCount">0</span>
+                </a>
+              </form>
+            </div>
+            <div class="custom_menu-btn">
+              <button onclick="openNav()">
+                <img src="images/menu.png" alt="">
+              </button>
+            </div>
+            <div id="myNav" class="overlay">
+              <div class="overlay-content">
+                <a href="index.html">Beranda</a>
+                <a href="menu.html">Menu</a>
+                <a href="blog.html">Berita Terkini</a>
+                <a href="testimonial.html">Cerita Mereka di Amerta</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <!-- food section -->
+  <section class="food_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>
+          Menu Pilihan Kami
+        </h2>
+        <p>
+          Nikmati kelezatan cita rasa nusantara dengan menu-menu spesial dari Amerta Restaurant
+        </p>
+      </div>
+      <ul class="filters_menu">
+        <li class="active" data-filter="*">Semua</li>
+        <li data-filter=".makanan-utama">Makanan Utama</li>
+        <li data-filter=".appetizer">Appetizer</li>
+        <li data-filter=".minuman">Minuman</li>
+        <li data-filter=".dessert">Dessert</li>
+      </ul>
+      <div class="filters-content">
+        <div class="row grid" id="menuContainer">
+          
+          <!-- Makanan Utama -->
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f1.png" alt="Soto Ayam Tradisional">
+              </div>
+              <div class="detail-box">
+                <h5>Soto Ayam Tradisional</h5>
+                <p>
+                  Kuah kaldu ayam yang gurih dengan bumbu rempah tradisional, dilengkapi dengan ayam suwir, telur, dan kerupuk.
+                </p>
+                <div class="options">
+                  <h6>Rp 45.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Soto Ayam Tradisional" 
+                     data-price="45000" 
+                     data-image="images/f1.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f2.png" alt="Nasi Gudeg Yogya">
+              </div>
+              <div class="detail-box">
+                <h5>Nasi Gudeg Yogya</h5>
+                <p>
+                  Gudeg khas Yogyakarta yang manis legit dengan nangka muda, dilengkapi ayam, telur, dan sambal krecek.
+                </p>
+                <div class="options">
+                  <h6>Rp 52.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Nasi Gudeg Yogya" 
+                     data-price="52000" 
+                     data-image="images/f2.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f3.png" alt="Rendang Daging Sapi">
+              </div>
+              <div class="detail-box">
+                <h5>Rendang Daging Sapi</h5>
+                <p>
+                  Rendang autentik Padang dengan daging sapi empuk dan bumbu santan yang meresap sempurna.
+                </p>
+                <div class="options">
+                  <h6>Rp 68.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Rendang Daging Sapi" 
+                     data-price="68000" 
+                     data-image="images/f3.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f4.png" alt="Nasi Liwet Solo">
+              </div>
+              <div class="detail-box">
+                <h5>Nasi Liwet Solo</h5>
+                <p>
+                  Nasi liwet gurih dengan santan, dilengkapi ayam suwir, telur pindang, dan sayur labu siam.
+                </p>
+                <div class="options">
+                  <h6>Rp 48.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Nasi Liwet Solo" 
+                     data-price="48000" 
+                     data-image="images/f4.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f5.png" alt="Sop Iga Sapi">
+              </div>
+              <div class="detail-box">
+                <h5>Sop Iga Sapi</h5>
+                <p>
+                  Sup iga sapi dengan kuah bening yang segar, dilengkapi wortel, kentang, dan bawang goreng.
+                </p>
+                <div class="options">
+                  <h6>Rp 58.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Sop Iga Sapi" 
+                     data-price="58000" 
+                     data-image="images/f5.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all makanan-utama">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f6.png" alt="Nasi Goreng Seafood">
+              </div>
+              <div class="detail-box">
+                <h5>Nasi Goreng Seafood</h5>
+                <p>
+                  Nasi goreng spesial dengan udang, cumi, dan ikan dori, dilengkapi telur mata sapi dan kerupuk.
+                </p>
+                <div class="options">
+                  <h6>Rp 55.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Nasi Goreng Seafood" 
+                     data-price="55000" 
+                     data-image="images/f6.png"
+                     data-category="makanan-utama">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appetizer -->
+          <div class="col-sm-6 col-lg-4 all appetizer">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f7.png" alt="Gado-Gado Jakarta">
+              </div>
+              <div class="detail-box">
+                <h5>Gado-Gado Jakarta</h5>
+                <p>
+                  Sayuran segar dengan bumbu kacang khas Jakarta, dilengkapi telur rebus dan kerupuk.
+                </p>
+                <div class="options">
+                  <h6>Rp 32.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Gado-Gado Jakarta" 
+                     data-price="32000" 
+                     data-image="images/f7.png"
+                     data-category="appetizer">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all appetizer">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f8.png" alt="Lumpia Semarang">
+              </div>
+              <div class="detail-box">
+                <h5>Lumpia Semarang</h5>
+                <p>
+                  Lumpia basah khas Semarang dengan isi rebung, telur, dan udang, disajikan dengan saus kacang.
+                </p>
+                <div class="options">
+                  <h6>Rp 28.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Lumpia Semarang" 
+                     data-price="28000" 
+                     data-image="images/f8.png"
+                     data-category="appetizer">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all appetizer">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/f9.png" alt="Kerak Telor Betawi">
+              </div>
+              <div class="detail-box">
+                <h5>Kerak Telor Betawi</h5>
+                <p>
+                  Makanan tradisional Betawi dengan telur, beras ketan, ebi, dan kelapa sangrai yang gurih.
+                </p>
+                <div class="options">
+                  <h6>Rp 25.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Kerak Telor Betawi" 
+                     data-price="25000" 
+                     data-image="images/f9.png"
+                     data-category="appetizer">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Minuman -->
+          <div class="col-sm-6 col-lg-4 all minuman">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/r1.jpg" alt="Es Teh Manis">
+              </div>
+              <div class="detail-box">
+                <h5>Es Teh Manis</h5>
+                <p>
+                  Teh manis dingin yang menyegarkan, cocok untuk menemani makanan Indonesia.
+                </p>
+                <div class="options">
+                  <h6>Rp 8.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Es Teh Manis" 
+                     data-price="8000" 
+                     data-image="images/r1.jpg"
+                     data-category="minuman">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all minuman">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/r2.jpg" alt="Es Jeruk Peras">
+              </div>
+              <div class="detail-box">
+                <h5>Es Jeruk Peras</h5>
+                <p>
+                  Jeruk peras segar dengan es batu, memberikan kesegaran alami yang menyehatkan.
+                </p>
+                <div class="options">
+                  <h6>Rp 12.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Es Jeruk Peras" 
+                     data-price="12000" 
+                     data-image="images/r2.jpg"
+                     data-category="minuman">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all minuman">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/r3.jpg" alt="Es Cendol">
+              </div>
+              <div class="detail-box">
+                <h5>Es Cendol</h5>
+                <p>
+                  Minuman tradisional dengan cendol, santan, dan gula merah yang manis legit.
+                </p>
+                <div class="options">
+                  <h6>Rp 15.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Es Cendol" 
+                     data-price="15000" 
+                     data-image="images/r3.jpg"
+                     data-category="minuman">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dessert -->
+          <div class="col-sm-6 col-lg-4 all dessert">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/o1.jpg" alt="Klepon">
+              </div>
+              <div class="detail-box">
+                <h5>Klepon</h5>
+                <p>
+                  Kue tradisional dengan isi gula merah cair, dibalut kelapa parut segar yang manis.
+                </p>
+                <div class="options">
+                  <h6>Rp 18.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Klepon" 
+                     data-price="18000" 
+                     data-image="images/o1.jpg"
+                     data-category="dessert">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-4 all dessert">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/o2.jpg" alt="Es Campur">
+              </div>
+              <div class="detail-box">
+                <h5>Es Campur</h5>
+                <p>
+                  Dessert segar dengan campuran buah, agar-agar, dan sirup manis yang menyegarkan.
+                </p>
+                <div class="options">
+                  <h6>Rp 22.000</h6>
+                  <a href="#" class="add-to-cart-btn" 
+                     data-name="Es Campur" 
+                     data-price="22000" 
+                     data-image="images/o2.jpg"
+                     data-category="dessert">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="btn-box">
+        <a href="cart.html">
+          Lihat Keranjang (<span id="cartCountFooter">0</span>)
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- end food section -->
+
+  <!-- info section -->
+  <section class="info_section ">
+    <div class="container">
+      <div class="contact_box">
+        <a href="https://maps.google.com/?q=LokasiAmertaRestaurant" target="_blank">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </a>
+        <a href="tel:+6281234567890">
+          <i class="fa fa-phone" aria-hidden="true"></i>
+        </a>
+        <a href="mailto:info@amertarestaurant.com">
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="info_links">
+        <ul>
+          <li>
+            <a href="index.html">Beranda</a>
+          </li>
+          <li class="active">
+            <a href="menu.html">Menu</a>
+          </li>
+          <li>
+            <a href="blog.html">Berita & Promo</a>
+          </li>
+          <li>
+            <a href="testimonial.html">Testimonial</a>
+          </li>
+          <li>
+            <a href="about.html">Tentang Kami</a>
+          </li>
+        </ul>
+      </div>
+      <div class="social_box">
+        <a href="https://instagram.com/amertarestaurant" target="_blank">
+          <i class="fa fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a href="https://wa.me/6281234567890" target="_blank">
+          <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </a>
+        <a href="https://linkedin.com/company/amertarestaurant" target="_blank">
+          <i class="fa fa-linkedin" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- end info_section -->
+
+  <div class="footer_container">
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <p>
+          © <span id="displayYear"></span> All Rights Reserved By
+          <a href="index.html">Amerta Restaurant</a><br>
+          Template By: <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+        </p>
+      </div>
+    </footer>
+    <!-- footer section -->
+  </div>
+
+  <!-- Cart notification -->
+  <div id="cartNotification" class="cart-notification">
+    <div class="notification-content">
+      <i class="fa fa-check-circle"></i>
+      <span class="notification-text">Item berhasil ditambahkan ke keranjang!</span>
+    </div>
+  </div>
+
+  <!-- jQery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  
+  <!-- Skrip Firebase dan Logika Autentikasi -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth-logic.js"></script>
+  <!-- Skrip untuk navbar authentication -->
+  <script type="module" src="js/navbar-auth.js"></script>
+
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+  <!-- Menu & Cart Logic -->
+  <script src="js/menu-cart.js"></script>
+
+</body>
+
+</html>

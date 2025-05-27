@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Amerta Restaurant</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 0 15px;
+        }
+
+        /* Row & Column System */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .col-md-3 {
+            flex: 0 0 25%;
+            max-width: 25%;
+            padding: 0 15px;
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 15px;
+        }
+
+        .col-md-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+            padding: 0 15px;
+        }
+
+        .col-md-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-3,
+            .col-md-4,
+            .col-md-6,
+            .col-md-8 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Header */
+        .admin-header {
+            background: linear-gradient(135deg, #442605, #6c3e0f);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(68, 38, 5, 0.2);
+        }
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .user-info {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #442605, #f4c87a);
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #442605;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            color: #f4c87a;
+            opacity: 0.3;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            margin-right: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-tab.active {
+            background: #442605;
+            color: white;
+            box-shadow: 0 2px 8px rgba(68, 38, 5, 0.3);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #f8f9fa;
+            color: #442605;
+        }
+
+        /* Orders Container */
+        .orders-container {
+            min-height: 400px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #442605;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .order-number {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            background: linear-gradient(135deg, #442605, #6c3e0f);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(68, 38, 5, 0.3);
+        }
+
+        .order-time {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status-confirmed {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .status-preparing {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-ready {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #e2e3e5, #d6d8db);
+            color: #383d41;
+            border: 1px solid #d6d8db;
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Customer Info */
+        .customer-info {
+            margin-bottom: 20px;
+        }
+
+        .customer-info h4 {
+            color: #442605;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 5px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        /* Order Items */
+        .order-items {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-items h5 {
+            color: #442605;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .item-quantity {
+            background: #442605;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .item-notes {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: #442605;
+            font-size: 1.05rem;
+        }
+
+        /* Order Total */
+        .order-total {
+            text-align: right;
+            margin: 15px 0;
+        }
+
+        .total-amount {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #442605;
+            background: linear-gradient(135deg, #f4c87a, #ffd93d);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 3px 12px rgba(244, 200, 122, 0.3);
+        }
+
+        /* Action Buttons */
+        .order-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+            color: white;
+        }
+
+        /* Loading & Empty States */
+        .loading,
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .loading i,
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #442605;
+            opacity: 0.5;
+        }
+
+        .loading h3,
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #442605;
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #442605, #6c3e0f);
+            color: white;
+            border: none;
+            box-shadow: 0 6px 25px rgba(68, 38, 5, 0.4);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: 0 8px 30px rgba(68, 38, 5, 0.5);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545, #e83e8c);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-header h1 {
+                font-size: 2rem;
+            }
+
+            .user-info {
+                text-align: left;
+                margin-top: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .nav-tab {
+                flex: 1;
+                text-align: center;
+                margin-right: 0;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .order-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Spinning animation for refresh */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fa-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>
+                        <i class="fas fa-tachometer-alt"></i>
+                        Admin Dashboard
+                    </h1>
+                    <p>Kelola pesanan dan monitor aktivitas restaurant</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle fa-2x"></i>
+                        <span>Admin Amerta</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stats-card">
+                <i class="fas fa-shopping-cart stat-icon"></i>
+                <div class="stat-label">Total Pesanan Hari Ini</div>
+                <div class="stat-number" id="totalOrdersToday">0</div>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-money-bill-wave stat-icon"></i>
+                <div class="stat-label">Pendapatan Hari Ini</div>
+                <div class="stat-number" id="revenueToday">Rp 0</div>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-clock stat-icon"></i>
+                <div class="stat-label">Pesanan Pending</div>
+                <div class="stat-number" id="pendingOrders">0</div>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-utensils stat-icon"></i>
+                <div class="stat-label">Sedang Diproses</div>
+                <div class="stat-number" id="processingOrders">0</div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-filter="all">
+                <i class="fas fa-list"></i> Semua
+            </button>
+            <button class="nav-tab" data-filter="pending">
+                <i class="fas fa-clock"></i> Pending
+            </button>
+            <button class="nav-tab" data-filter="confirmed">
+                <i class="fas fa-check"></i> Dikonfirmasi
+            </button>
+            <button class="nav-tab" data-filter="preparing">
+                <i class="fas fa-utensils"></i> Diproses
+            </button>
+            <button class="nav-tab" data-filter="ready">
+                <i class="fas fa-bell"></i> Siap
+            </button>
+            <button class="nav-tab" data-filter="completed">
+                <i class="fas fa-check-circle"></i> Selesai
+            </button>
+        </div>
+
+        <!-- Orders Container -->
+        <div class="orders-container" id="ordersContainer">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Memuat Data Pesanan...</h3>
+                <p>Mohon tunggu sebentar</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refresh Button -->
+    <button class="refresh-btn" onclick="loadOrders()" title="Refresh Data">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { db } from './js/firebase-config.js';
+        import { 
+            ref, 
+            get, 
+            update,
+            serverTimestamp
+        } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js';
+
+        let allOrders = [];
+        let currentFilter = 'all';
+
+        // Load orders from Firebase
+        async function loadOrders() {
+            try {
+                console.log('Loading orders from Firebase...');
+                const ordersRef = ref(db, 'orders');
+                const snapshot = await get(ordersRef);
+                
+                if (snapshot.exists()) {
+                    allOrders = [];
+                    snapshot.forEach(childSnapshot => {
+                        allOrders.push({
+                            id: childSnapshot.key,
+                            ...childSnapshot.val()
+                        });
+                    });
+                    
+                    // Sort by timestamp (newest first)
+                    allOrders.sort((a, b) => {
+                        const timeA = a.timestamps?.ordered || 0;
+                        const timeB = b.timestamps?.ordered || 0;
+                        return timeB - timeA;
+                    });
+                    
+                    console.log('Orders loaded:', allOrders.length);
+                    updateStatistics();
+                    renderOrders();
+                } else {
+                    console.log('No orders found');
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                showError('Gagal memuat data pesanan: ' + error.message);
+            }
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const today = new Date();
+            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            
+            const todayOrders = allOrders.filter(order => {
+                const orderDate = new Date(order.timestamps?.ordered || 0);
+                return orderDate >= todayStart;
+            });
+            
+            const totalOrdersToday = todayOrders.length;
+            const revenueToday = todayOrders.reduce((sum, order) => sum + (order.pricing?.total || 0), 0);
+            const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
+            const processingOrders = allOrders.filter(order => 
+                ['confirmed', 'preparing'].includes(order.status)
+            ).length;
+            
+            document.getElementById('totalOrdersToday').textContent = totalOrdersToday;
+            document.getElementById('revenueToday').textContent = 'Rp ' + revenueToday.toLocaleString('id-ID');
+            document.getElementById('pendingOrders').textContent = pendingOrders;
+            document.getElementById('processingOrders').textContent = processingOrders;
+        }
+
+        // Render orders
+        function renderOrders() {
+            const container = document.getElementById('ordersContainer');
+            
+            let filteredOrders = allOrders;
+            if (currentFilter !== 'all') {
+                filteredOrders = allOrders.filter(order => order.status === currentFilter);
+            }
+            
+            if (filteredOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Tidak ada pesanan</h3>
+                        <p>Belum ada pesanan ${currentFilter === 'all' ? '' : 'dengan status ' + getStatusText(currentFilter)}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredOrders.forEach(order => {
+                html += createOrderCard(order);
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Create order card HTML
+        function createOrderCard(order) {
+            const orderTime = new Date(order.timestamps?.ordered || 0);
+            const timeString = orderTime.toLocaleString('id-ID');
+            
+            return `
+                <div class="order-card" data-order-id="${order.id}">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">${order.orderNumber}</div>
+                            <div class="order-time">${timeString}</div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-${order.status}">${getStatusText(order.status)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <h4><i class="fas fa-user"></i> Informasi Pelanggan</h4>
+                        <div class="info-row">
+                            <div class="info-item">
+                                <i class="fas fa-user"></i>
+                                <strong>${order.customerInfo?.name || 'N/A'}</strong>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-table"></i>
+                                <strong>Meja ${order.customerInfo?.tableNumber || 'N/A'}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <h5><i class="fas fa-list"></i> Detail Pesanan</h5>
+                        ${order.items?.map(item => `
+                            <div class="order-item">
+                                <div class="item-details">
+                                    <div class="item-name">
+                                        ${item.name}
+                                        <span class="item-quantity">x${item.quantity}</span>
+                                    </div>
+                                    ${item.notes ? `<div class="item-notes"><i class="fas fa-sticky-note"></i> ${item.notes}</div>` : ''}
+                                </div>
+                                <div class="item-price">Rp ${item.subtotal?.toLocaleString('id-ID') || '0'}</div>
+                            </div>
+                        `).join('') || ''}
+                    </div>
+                    
+                    <div class="order-total">
+                        <div class="total-amount">
+                            Total: Rp ${order.pricing?.total?.toLocaleString('id-ID') || '0'}
+                        </div>
+                    </div>
+                    
+                    <div class="order-actions">
+                        ${getActionButtons(order)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get status text in Indonesian
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Menunggu Konfirmasi',
+                'confirmed': 'Dikonfirmasi',
+                'preparing': 'Sedang Diproses',
+                'ready': 'Siap Diantar',
+                'completed': 'Selesai',
+                'cancelled': 'Dibatalkan'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Get action buttons based on order status
+        function getActionButtons(order) {
+            const orderId = order.id;
+            const status = order.status;
+            
+            let buttons = '';
+            
+            switch (status) {
+                case 'pending':
+                    buttons = `
+                        <button class="btn btn-success" onclick="updateOrderStatus('${orderId}', 'confirmed')">
+                            <i class="fas fa-check"></i> Konfirmasi
+                        </button>
+                        <button class="btn btn-danger" onclick="updateOrderStatus('${orderId}', 'cancelled')">
+                            <i class="fas fa-times"></i> Batalkan
+                        </button>
+                    `;
+                    break;
+                case 'confirmed':
+                    buttons = `
+                        <button class="btn btn-warning" onclick="updateOrderStatus('${orderId}', 'preparing')">
+                            <i class="fas fa-utensils"></i> Mulai Proses
+                        </button>
+                    `;
+                    break;
+                case 'preparing':
+                    buttons = `
+                        <button class="btn btn-info" onclick="updateOrderStatus('${orderId}', 'ready')">
+                            <i class="fas fa-bell"></i> Siap Diantar
+                        </button>
+                    `;
+                    break;
+                case 'ready':
+                    buttons = `
+                        <button class="btn btn-primary" onclick="updateOrderStatus('${orderId}', 'completed')">
+                            <i class="fas fa-check-circle"></i> Selesai
+                        </button>
+                    `;
+                    break;
+                default:
+                    buttons = '<span class="text-muted">Tidak ada aksi</span>';
+            }
+            
+            return buttons;
+        }
+
+        // Update order status
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                const orderRef = ref(db, `orders/${orderId}`);
+                const updates = {
+                    status: newStatus,
+                    [`timestamps/${newStatus}`]: Date.now()
+                };
+                
+                await update(orderRef, updates);
+                
+                // Update local data
+                const orderIndex = allOrders.findIndex(order => order.id === orderId);
+                if (orderIndex !== -1) {
+                    allOrders[orderIndex].status = newStatus;
+                    allOrders[orderIndex].timestamps[newStatus] = Date.now();
+                }
+                
+                updateStatistics();
+                renderOrders();
+                
+                showNotification(`Status pesanan berhasil diubah ke ${getStatusText(newStatus)}`, 'success');
+                
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showNotification('Gagal mengubah status pesanan: ' + error.message, 'error');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        // Show empty state
+        function showEmptyState() {
+            document.getElementById('ordersContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Belum ada pesanan</h3>
+                    <p>Pesanan akan muncul di sini setelah pelanggan memesan</p>
+                </div>
+            `;
+        }
+
+        // Show error
+        function showError(message) {
+            document.getElementById('ordersContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <button class="btn btn-primary" onclick="loadOrders()">
+                        <i class="fas fa-sync-alt"></i> Coba Lagi
+                    </button>
+                </div>
+            `;
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load orders on page load
+            loadOrders();
+            
+            // Filter tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    currentFilter = this.getAttribute('data-filter');
+                    renderOrders();
+                });
+            });
+            
+            // Auto refresh every 30 seconds
+            setInterval(loadOrders, 30000);
+        });
+
+        // Make functions global
+        window.loadOrders = loadOrders;
+        window.updateOrderStatus = updateOrderStatus;
+        window.getStatusText = getStatusText;
+    </script>
+</body>
+</html>

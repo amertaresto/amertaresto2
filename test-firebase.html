@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Connection - Amerta Restaurant</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .config-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Test Firebase Connection - Amerta Restaurant</h1>
+        
+        <div id="status"></div>
+        
+        <button onclick="testFirebaseConnection()">🧪 Test Firebase Connection</button>
+        <button onclick="testAuth()">🔐 Test Authentication</button>
+        <button onclick="testDatabase()">💾 Test Database</button>
+        <button onclick="showDatabaseRules()">🛡️ Show Database Rules Help</button>
+        
+        <div class="config-display" id="configDisplay"></div>
+        
+        <div id="results"></div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAguNidBALkGK-86dhVUR7bJMB3UKdC_cQ",
+            authDomain: "amerta-f7a32.firebaseapp.com",
+            databaseURL: "https://amerta-f7a32-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "amerta-f7a32",
+            storageBucket: "amerta-f7a32.firebasestorage.app",
+            messagingSenderId: "23304695835",
+            appId: "1:23304695835:web:7e761d0590a918b64fc8be"
+        };
+
+        // Global functions for testing
+        window.showDatabaseRules = function() {
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <div class="info">
+                    <h3>🛡️ Database Rules Help</h3>
+                    <h4>Temporary Debug Rules (Apply to Firebase Console):</h4>
+                    <div class="config-display">
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+                    </div>
+                    <h4>Instructions:</h4>
+                    <ol>
+                        <li>Copy the rules above</li>
+                        <li>Go to Firebase Console → Realtime Database → Rules</li>
+                        <li>Replace all rules with the debug rules above</li>
+                        <li>Click "Publish"</li>
+                        <li>Come back and test again</li>
+                    </ol>
+                    <div class="warning">
+                        <strong>⚠️ Warning:</strong> These rules allow any authenticated user to read/write all data. Use only for debugging!
+                    </div>
+                </div>
+            `;
+        };
+
+        // Initialize Firebase
+        let app, auth, database;
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            database = getDatabase(app);
+            
+            document.getElementById('status').innerHTML = '<div class="success">✅ Firebase initialized successfully!</div>';
+            document.getElementById('configDisplay').textContent = 
+                'Firebase Config:\n' + JSON.stringify(firebaseConfig, null, 2);
+        } catch (error) {
+            document.getElementById('status').innerHTML = 
+                '<div class="error">❌ Firebase initialization failed: ' + error.message + '</div>';
+        }
+
+        // Global functions for testing
+        window.testFirebaseConnection = function() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="info">🔍 Testing Firebase connection...</div>';
+            
+            if (app) {
+                results.innerHTML += '<div class="success">✅ Firebase App: Connected</div>';
+                results.innerHTML += '<div class="info">📱 App Name: ' + app.name + '</div>';
+                results.innerHTML += '<div class="info">🆔 Project ID: ' + firebaseConfig.projectId + '</div>';
+            } else {
+                results.innerHTML += '<div class="error">❌ Firebase App: Not initialized</div>';
+            }
+        };
+
+        window.testAuth = function() {
+            const results = document.getElementById('results');
+            
+            if (auth) {
+                results.innerHTML += '<div class="success">✅ Firebase Auth: Available</div>';
+                results.innerHTML += '<div class="info">🔐 Auth Domain: ' + auth.config.authDomain + '</div>';
+                results.innerHTML += '<div class="info">👤 Current User: ' + (auth.currentUser ? auth.currentUser.email : 'Not logged in') + '</div>';
+            } else {
+                results.innerHTML += '<div class="error">❌ Firebase Auth: Not available</div>';
+            }
+        };
+
+        window.testDatabase = function() {
+            const results = document.getElementById('results');
+            
+            if (database) {
+                try {
+                    results.innerHTML += '<div class="success">✅ Realtime Database: Available</div>';
+                    results.innerHTML += '<div class="info">💾 Database URL: ' + database.app.options.databaseURL + '</div>';
+                    
+                    // Test database connection and permissions
+                    import("https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js")
+                    .then(({ ref, get, set, serverTimestamp }) => {
+                        // Test basic connection
+                        const connectedRef = ref(database, '.info/connected');
+                        get(connectedRef).then((snapshot) => {
+                            if (snapshot.val() === true) {
+                                results.innerHTML += '<div class="success">✅ Database Connection: Online</div>';
+                                
+                                // Test write permissions if authenticated
+                                if (auth.currentUser) {
+                                    results.innerHTML += '<div class="info">🔐 User authenticated: ' + auth.currentUser.email + '</div>';
+                                    
+                                    // Test write to user's own path
+                                    const testUserRef = ref(database, 'users/' + auth.currentUser.uid + '/test');
+                                    set(testUserRef, {
+                                        test: true,
+                                        timestamp: serverTimestamp()
+                                    }).then(() => {
+                                        results.innerHTML += '<div class="success">✅ Database Write: Allowed</div>';
+                                        // Clean up test data
+                                        set(testUserRef, null);
+                                    }).catch((writeError) => {
+                                        results.innerHTML += '<div class="error">❌ Database Write Error: ' + writeError.code + ' - ' + writeError.message + '</div>';
+                                        
+                                        if (writeError.code === 'PERMISSION_DENIED') {
+                                            results.innerHTML += '<div class="warning">⚠️ PERMISSION_DENIED: Check database rules in Firebase Console</div>';
+                                        }
+                                    });
+                                } else {
+                                    results.innerHTML += '<div class="warning">⚠️ User not authenticated - Login to test write permissions</div>';
+                                    
+                                    // Test public read access
+                                    const publicTestRef = ref(database, 'test_public');
+                                    get(publicTestRef).then(() => {
+                                        results.innerHTML += '<div class="success">✅ Public Read: Allowed</div>';
+                                    }).catch((readError) => {
+                                        results.innerHTML += '<div class="error">❌ Public Read Error: ' + readError.code + '</div>';
+                                    });
+                                }
+                            } else {
+                                results.innerHTML += '<div class="warning">⚠️ Database Connection: Offline</div>';
+                            }
+                        }).catch((error) => {
+                            results.innerHTML += '<div class="error">❌ Database Test Error: ' + error.message + '</div>';
+                        });
+                    });
+                } catch (error) {
+                    results.innerHTML += '<div class="error">❌ Database Error: ' + error.message + '</div>';
+                }
+            } else {
+                results.innerHTML += '<div class="error">❌ Realtime Database: Not available</div>';
+            }
+        };
+    </script>
+</body>
+</html>
