@@ -1242,3 +1242,4 @@ window.processOrder = processOrder;
 window.clearAllItems = clearAllItems;
 window.saveCartAsFavorite = saveCartAsFavorite;
 window.printOrderReceipt = printOrderReceipt;
+window.updateCartCounters = updateCartCounters;
