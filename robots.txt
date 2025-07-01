@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amertaresto.github.io/amertaresto/sitemap.xml
