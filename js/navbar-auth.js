@@ -65,6 +65,9 @@ function handleUserLoggedOut() {
 
 function updateNavbarForLoggedInUser(displayName, email) {
     if (userOptionElement) {
+        // Get current cart count before updating HTML
+        const currentCartCount = document.getElementById('cartCount')?.textContent || '0';
+        
         userOptionElement.innerHTML = `
             <div class="user-info">
                 <div class="user-greeting">
@@ -81,6 +84,7 @@ function updateNavbarForLoggedInUser(displayName, email) {
             <form class="form-inline">
                 <a href="cart.html" class="btn nav_cart-btn" type="button">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <span class="cart-count" id="cartCount">${currentCartCount}</span>
                 </a>
             </form>
         `;
@@ -90,11 +94,19 @@ function updateNavbarForLoggedInUser(displayName, email) {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', handleLogout);
         }
+        
+        // Update cart count after navbar update
+        if (typeof updateCartCounters !== 'undefined') {
+            updateCartCounters();
+        }
     }
 }
 
 function updateNavbarForLoggedOutUser() {
     if (userOptionElement) {
+        // Get current cart count before updating HTML
+        const currentCartCount = document.getElementById('cartCount')?.textContent || '0';
+        
         userOptionElement.innerHTML = `
             <a href="login.html">
                 <i class="fa fa-user" aria-hidden="true"></i>
@@ -103,9 +115,15 @@ function updateNavbarForLoggedOutUser() {
             <form class="form-inline">
                 <a href="cart.html" class="btn nav_cart-btn" type="button">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <span class="cart-count" id="cartCount">${currentCartCount}</span>
                 </a>
             </form>
         `;
+        
+        // Update cart count after navbar update
+        if (typeof updateCartCounters !== 'undefined') {
+            updateCartCounters();
+        }
     }
 }
 
