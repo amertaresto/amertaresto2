@@ -10,16 +10,15 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-s
 // import { getFirestore } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // Konfigurasi Firebase untuk aplikasi web Anda
-// UPDATED: Konfigurasi lengkap untuk project amertarestoran
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDWXUCXt4D9Q7OLbLuzdqTiQ7sHaYKc6EA",
-    authDomain: "amertarestoran.firebaseapp.com",
-    databaseURL: "https://amertarestoran-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "amertarestoran",
-    storageBucket: "amertarestoran.appspot.com",
-    messagingSenderId: "1049560935168",
-    appId: "1:1049560935168:web:b36dc7d71bd195378521e5"
-    // measurementId: "G-XXXXXXXXXX" // Tambahkan jika Analytics diaktifkan
+  apiKey: "AIzaSyDWXUCXt4D9Q7OLbLuzdqTiQ7sHaYKc6EA",
+  authDomain: "amertarestoran.firebaseapp.com",
+  projectId: "amertarestoran",
+  storageBucket: "amertarestoran.firebasestorage.app",
+  messagingSenderId: "1049560935168",
+  appId: "1:1049560935168:web:b36dc7d71bd195378521e5",
+  measurementId: "G-JPHVHRXP71"
 };
 
 // Inisialisasi Firebase
