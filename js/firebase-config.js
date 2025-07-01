@@ -10,19 +10,16 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-s
 // import { getFirestore } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // Konfigurasi Firebase untuk aplikasi web Anda
-// UPDATED: Konfigurasi dari Firebase Console project amerta-f7a32
-// Your web app's Firebase configuration
+// UPDATED: Konfigurasi lengkap untuk project amertarestoran
 const firebaseConfig = {
-    apiKey: "AIzaSyAguNidBALkGK-86dhVUR7bJMB3UKdC_cQ",
-    authDomain: "amerta-f7a32.firebaseapp.com",
-    // databaseURL - URL confirmed dari Firebase Console
-    // CONFIRMED: https://amerta-f7a32-default-rtdb.firebaseio.com/
-    databaseURL: "https://amerta-f7a32-default-rtdb.firebaseio.com/", // URL sudah benar ✅
-    projectId: "amerta-f7a32",
-    storageBucket: "amerta-f7a32.firebasestorage.app",
-    messagingSenderId: "23304695835",
-    appId: "1:23304695835:web:7e761d0590a918b64fc8be"
-    // measurementId akan ditambahkan jika Google Analytics diaktifkan
+    apiKey: "AIzaSyDWXUCXt4D9Q7OLbLuzdqTiQ7sHaYKc6EA",
+    authDomain: "amertarestoran.firebaseapp.com",
+    databaseURL: "https://amertarestoran-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "amertarestoran",
+    storageBucket: "amertarestoran.appspot.com",
+    messagingSenderId: "1049560935168",
+    appId: "1:1049560935168:web:b36dc7d71bd195378521e5"
+    // measurementId: "G-XXXXXXXXXX" // Tambahkan jika Analytics diaktifkan
 };
 
 // Inisialisasi Firebase
@@ -30,9 +27,9 @@ const app = initializeApp(firebaseConfig);
 
 // Inisialisasi layanan Firebase yang akan digunakan
 const analytics = getAnalytics(app); // Untuk Google Analytics (opsional)
-const auth = getAuth(app);             // Untuk Firebase Authentication
-const db = getDatabase(app);           // Untuk Firebase Realtime Database
-const storage = getStorage(app);       // Untuk Firebase Storage (upload file)
+const auth = getAuth(app);           // Untuk Firebase Authentication
+const db = getDatabase(app);         // Untuk Firebase Realtime Database
+const storage = getStorage(app);     // Untuk Firebase Storage (upload file)
 // const firestore = getFirestore(app); // Jika menggunakan Firestore
 
 // Ekspor instance layanan agar bisa diimpor di file JavaScript lain
