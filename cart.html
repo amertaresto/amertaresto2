@@ -26,6 +26,22 @@
 </head>
 
 <body class="sub_page">
+<script>
+// Fix cart count immediately on page load
+(function() {
+    const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    // Update cart count when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartCountElements = document.querySelectorAll('.cart-count, #cartCount');
+        cartCountElements.forEach(element => {
+            element.textContent = totalItems;
+            element.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        });
+    });
+})();
+</script>
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">
