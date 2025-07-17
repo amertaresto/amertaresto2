@@ -187,19 +187,18 @@
         timestamp: new Date().toISOString()
       };
 
-    
       
     firebase.database().ref('orders').push(orderData)
-      .then(ref => {
-        localStorage.setItem('amerta_receipt', JSON.stringify({
-           orderId: ref.key,
+        .then(ref => {
+          localStorage.setItem('amerta_receipt', JSON.stringify({
+            orderId: ref.key,
             ...orderData
           }));
           localStorage.removeItem('amerta_cart');
           window.location.href = 'receipt.html';
         })
         .catch(error => {
-        alert('Gagal menyimpan pesanan: ' + error.message);
+          alert('Gagal menyimpan pesanan: ' + error.message);
         });
     }
 
