@@ -188,18 +188,36 @@
       };
 
       firebase.database().ref('orders').push(orderData)
-        .then(ref => {
-          localStorage.setItem('amerta_receipt', JSON.stringify({
-            orderId: ref.key,
-            ...orderData
-          }));
-          localStorage.removeItem('amerta_cart');
-          window.location.href = 'receipt.html';
-        })
-        .catch(error => {
-          alert('Gagal menyimpan pesanan: ' + error.message);
-        });
-    }
+  .then(ref => {
+    localStorage.setItem('amerta_receipt', JSON.stringify({
+      orderId: ref.key,
+      ...orderData
+    }));
+    localStorage.removeItem('amerta_cart');
+
+    // Tambahkan pesan
+    alert("Terima kasih telah memesan!");
+
+    // Arahkan ke struk setelah 1 detik
+    setTimeout(() => {
+      window.location.href = 'receipt.html';
+    }, 1000);
+  });
+}
+      
+    //  firebase.database().ref('orders').push(orderData)
+        //.then(ref => {
+        //  localStorage.setItem('amerta_receipt', JSON.stringify({
+         //   orderId: ref.key,
+         //   ...orderData
+        //  }));
+         // localStorage.removeItem('amerta_cart');
+       //   window.location.href = 'receipt.html';
+       // })
+       // .catch(error => {
+      //    alert('Gagal menyimpan pesanan: ' + error.message);
+      //  });
+  //  }
 
     document.addEventListener('DOMContentLoaded', () => {
       renderCartItems();
