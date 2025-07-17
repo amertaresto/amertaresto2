@@ -17,6 +17,174 @@ function saveCart(cart) {
     updateCartCounters();
 }
 
+// Tambahkan fungsi-fungsi ini ke file js/menu-cart.js yang sudah ada
+
+// Fungsi untuk render item keranjang
+function renderCartItems() {
+    const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const container = document.getElementById('cartItemsContainer');
+    
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="empty-cart">
+                <i class="fa fa-shopping-cart"></i>
+                <p>Keranjang belanja kosong</p>
+                <a href="menu.html" class="btn btn-primary">Lihat Menu</a>
+            </div>
+        `;
+        updateCartSummary();
+        return;
+    }
+    
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item" data-id="${item.id}">
+            <div class="item-image">
+                <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="item-details">
+                <h5>${item.name}</h5>
+                <p class="item-price">Rp ${item.price.toLocaleString('id-ID')}</p>
+            </div>
+            <div class="item-quantity">
+                <button class="quantity-btn minus" onclick="updateQuantity('${item.id}', -1)">-</button>
+                <span class="quantity">${item.quantity}</span>
+                <button class="quantity-btn plus" onclick="updateQuantity('${item.id}', 1)">+</button>
+            </div>
+            <div class="item-total">
+                <span>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
+            </div>
+            <div class="item-actions">
+                <button class="remove-btn" onclick="removeFromCart('${item.id}')">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    updateCartSummary();
+}
+
+// Fungsi untuk update quantity
+function updateQuantity(itemId, change) {
+    let cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const itemIndex = cart.findIndex(item => item.id === itemId);
+    
+    if (itemIndex !== -1) {
+        cart[itemIndex].quantity += change;
+        
+        if (cart[itemIndex].quantity <= 0) {
+            cart.splice(itemIndex, 1);
+        }
+        
+        localStorage.setItem('amerta_cart', JSON.stringify(cart));
+        renderCartItems();
+        updateCartCount();
+    }
+}
+
+// Fungsi untuk remove item dari cart
+function removeFromCart(itemId) {
+    let cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    cart = cart.filter(item => item.id !== itemId);
+    
+    localStorage.setItem('amerta_cart', JSON.stringify(cart));
+    renderCartItems();
+    updateCartCount();
+}
+
+// Fungsi untuk update cart count
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    const cartCountElements = document.querySelectorAll('.cart-count, #cartCount');
+    cartCountElements.forEach(el => {
+        el.textContent = totalItems;
+        el.style.display = totalItems > 0 ? 'inline-block' : 'none';
+    });
+}
+
+// Variable untuk menyimpan diskon yang diterapkan
+let appliedDiscount = { code: '', amount: 0 };
+
+// Fungsi untuk update summary cart
+function updateCartSummary() {
+    const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discount = appliedDiscount.amount;
+    const total = subtotal - discount;
+    
+    // Update tampilan summary
+    const summaryRows = document.querySelectorAll('.summary_row');
+    if (summaryRows.length >= 3) {
+        summaryRows[0].querySelector('span:last-child').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+        summaryRows[1].querySelector('span:last-child').textContent = `-Rp ${discount.toLocaleString('id-ID')}`;
+        summaryRows[2].querySelector('span:last-child').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    }
+}
+
+// Fungsi untuk apply promo code
+function applyPromoCode() {
+    const promoInput = document.querySelector('.promo_input');
+    const promoCode = promoInput.value.trim().toUpperCase();
+    
+    if (!promoCode) {
+        alert('Mohon masukkan kode promo!');
+        return;
+    }
+    
+    // Daftar kode promo yang tersedia
+    const promoCodes = {
+        'AMERTA10': { discount: 10000, description: 'Diskon Rp 10.000' },
+        'NEWCUSTOMER': { discount: 15000, description: 'Diskon Rp 15.000' },
+        'WEEKEND': { discount: 20000, description: 'Diskon Rp 20.000' },
+        'STUDENT': { discount: 8000, description: 'Diskon Rp 8.000' }
+    };
+    
+    if (promoCodes[promoCode]) {
+        // Cek apakah sudah ada promo yang diterapkan
+        if (appliedDiscount.code) {
+            alert('Anda sudah menerapkan kode promo sebelumnya!');
+            return;
+        }
+        
+        // Cek minimum pembelian (opsional)
+        const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        if (subtotal < promoCodes[promoCode].discount) {
+            alert('Minimum pembelian tidak terpenuhi untuk kode promo ini!');
+            return;
+        }
+        
+        // Terapkan diskon
+        appliedDiscount = {
+            code: promoCode,
+            amount: promoCodes[promoCode].discount
+        };
+        
+        // Update summary
+        updateCartSummary();
+        
+        // Tampilkan pesan sukses
+        alert(`Kode promo "${promoCode}" berhasil diterapkan!\n${promoCodes[promoCode].description}`);
+        
+        // Disable input dan tombol
+        promoInput.disabled = true;
+        promoInput.value = `${promoCode} (Diterapkan)`;
+        document.querySelector('.promo_btn').textContent = 'Diterapkan';
+        document.querySelector('.promo_btn').disabled = true;
+        
+    } else {
+        alert('Kode promo tidak valid!');
+    }
+}
+
+// Pastikan fungsi-fungsi ini tersedia secara global
+window.updateQuantity = updateQuantity;
+window.removeFromCart = removeFromCart;
+window.applyPromoCode = applyPromoCode;
+
 // Add item to cart
 function addToCart(item) {
     let cart = getCart();
