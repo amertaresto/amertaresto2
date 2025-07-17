@@ -57,11 +57,9 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
     const userInfo = await getUserInfo();
     const orderNumber = generateOrderNumber();
 
-    // ✅ Pastikan nilai string agar aman diproses
     const customerName = String(customerInfo?.name ?? '').trim();
     const tableNumber = String(customerInfo?.tableNumber ?? '').trim();
 
-    // 🛒 Proses item pesanan
     const processedItems = cartItems.map(item => ({
         id: item.id || '',
         name: item.name || '',
@@ -108,6 +106,7 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
         }
     };
 }
+
 async function saveOrderToFirebase(orderData) {
     try {
         const validationErrors = validateOrderData(orderData);
