@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Struk Pemesanan - Amerta</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <style>
+    body { padding: 2rem; font-family: sans-serif; }
+    .receipt { max-width: 600px; margin: auto; border: 1px solid #ddd; padding: 20px; }
+    h2 { text-align: center; }
+    table { width: 100%; margin-top: 20px; }
+    th, td { padding: 8px; border-bottom: 1px solid #ccc; }
+    .btn-print { margin-top: 20px; display: block; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="receipt">
+    <h2>Struk Pemesanan</h2>
+    <p><strong>Nama:</strong> <span id="customerName"></span></p>
+    <p><strong>Nomor Meja:</strong> <span id="tableNumber"></span></p>
+    <p><strong>Waktu:</strong> <span id="timestamp"></span></p>
+
+    <table>
+      <thead>
+        <tr><th>Menu</th><th>Jumlah</th></tr>
+      </thead>
+      <tbody id="itemsList"></tbody>
+    </table>
+
+    <div class="btn-print">
+      <button class="btn btn-primary" onclick="window.print()">Cetak Struk</button>
+    </div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem('latest_order') || '{}');
+
+    document.getElementById('customerName').textContent = data.customerName || '-';
+    document.getElementById('tableNumber').textContent = data.tableNumber || '-';
+    document.getElementById('timestamp').textContent = new Date(data.timestamp).toLocaleString() || '-';
+
+    const itemsList = document.getElementById('itemsList');
+    (data.items || []).forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${item.name}</td><td>${item.quantity}</td>`;
+      itemsList.appendChild(row);
+    });
+  </script>
+</body>
+</html>
