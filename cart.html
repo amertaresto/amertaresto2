@@ -172,69 +172,8 @@
 <!-- Firebase & Logic Modules -->
 <script type="module">
   import {
-    createOrderData,
-    saveOrderToFirebase,
-    showOrderSuccessNotification,
-    showOrderErrorNotification
+    processOrder
   } from './js/orders/order-manager.js';
-
-  function getCart() {
-    const cart = localStorage.getItem('amerta_cart');
-    return cart ? JSON.parse(cart) : [];
-  }
-
-  function clearCart() {
-    localStorage.removeItem('amerta_cart');
-    const counter = document.getElementById('cartCount');
-    if (counter) {
-      counter.textContent = '0';
-      counter.style.display = 'none';
-    }
-  }
-
-  async function processOrder() {
-    const name = document.getElementById('customerName')?.value.trim();
-    const table = document.getElementById('tableNumber')?.value.trim();
-    const cart = getCart();
-
-    if (!name || !table || cart.length === 0) {
-      alert('Mohon lengkapi nama, nomor meja, dan isi keranjang terlebih dahulu.');
-      return;
-    }
-
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const total = subtotal;
-    const customerInfo = { name, tableNumber };
-    const pricing = { subtotal, discount: 0, total };
-
-    try {
-      const orderData = await createOrderData(customerInfo, cart, pricing);
-      const result = await saveOrderToFirebase(orderData);
-
-      if (result.success) {
-        localStorage.setItem('amerta_receipt', JSON.stringify({
-          orderId: result.orderId,
-          orderNumber: result.orderNumber,
-          customerName: name,
-          tableNumber: table,
-          cart,
-          pricing,
-          timestamp: Date.now()
-        }));
-
-        clearCart();
-        showOrderSuccessNotification(orderData);
-        setTimeout(() => {
-          window.location.href = 'receipt.html';
-        }, 1200);
-      } else {
-        showOrderErrorNotification(result.error);
-      }
-    } catch (err) {
-      console.error('Gagal memproses pesanan:', err);
-      showOrderErrorNotification(err.message);
-    }
-  }
 
   document.addEventListener('DOMContentLoaded', function () {
     const btn = document.querySelector('.order_btn');
