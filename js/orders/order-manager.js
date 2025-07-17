@@ -57,12 +57,17 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
     const userInfo = await getUserInfo();
     const orderNumber = generateOrderNumber();
 
+    // ✅ Pastikan nilai string agar aman diproses
+    const customerName = String(customerInfo?.name ?? '').trim();
+    const tableNumber = String(customerInfo?.tableNumber ?? '').trim();
+
+    // 🛒 Proses item pesanan
     const processedItems = cartItems.map(item => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        subtotal: item.price * item.quantity,
+        id: item.id || '',
+        name: item.name || '',
+        price: Number(item.price) || 0,
+        quantity: Number(item.quantity) || 0,
+        subtotal: (Number(item.price) || 0) * (Number(item.quantity) || 0),
         notes: item.notes || '',
         category: item.category || '',
         image: item.image || ''
@@ -71,8 +76,8 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
     return {
         orderNumber,
         customerInfo: {
-            name: customerInfo.name.trim(),
-            tableNumber: customerInfo.tableNumber.trim(),
+            name: customerName,
+            tableNumber: tableNumber,
             ...(userInfo && {
                 email: userInfo.email,
                 userId: userInfo.userId
@@ -80,10 +85,10 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
         },
         items: processedItems,
         pricing: {
-            subtotal: pricing.subtotal,
-            discount: pricing.discount || 0,
+            subtotal: Number(pricing.subtotal) || 0,
+            discount: Number(pricing.discount) || 0,
             promoCode: promoCode || '',
-            total: pricing.total
+            total: Number(pricing.total) || 0
         },
         status: 'pending',
         timestamps: {
@@ -103,7 +108,6 @@ async function createOrderData(customerInfo, cartItems, pricing, promoCode = '')
         }
     };
 }
-
 async function saveOrderToFirebase(orderData) {
     try {
         const validationErrors = validateOrderData(orderData);
