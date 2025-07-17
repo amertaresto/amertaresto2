@@ -593,3 +593,90 @@ export {
     showOrderSuccessNotification,
     showOrderErrorNotification
 };
+
+import {
+    createOrderData,
+    saveOrderToFirebase,
+    showOrderSuccessNotification,
+    showOrderErrorNotification
+} from './orders/order-manager.js';
+
+// Ambil cart dari localStorage
+function getCart() {
+    const cart = localStorage.getItem('amerta_cart');
+    return cart ? JSON.parse(cart) : [];
+}
+
+// Kosongkan cart
+function clearCart() {
+    localStorage.removeItem('amerta_cart');
+    const counter = document.getElementById('cartCount');
+    if (counter) {
+        counter.textContent = '0';
+        counter.style.display = 'none';
+    }
+}
+
+// Proses Checkout
+async function processOrder() {
+    const name = document.getElementById('customerName')?.value.trim();
+    const table = document.getElementById('tableNumber')?.value.trim();
+    const cart = getCart();
+
+    if (!name || !table || cart.length === 0) {
+        alert('Mohon lengkapi nama, nomor meja, dan isi keranjang terlebih dahulu.');
+        return;
+    }
+
+    // Hitung subtotal dan total
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const total = subtotal; // bisa dikurangi diskon nanti
+
+    const customerInfo = {
+        name,
+        tableNumber
+    };
+
+    const pricing = {
+        subtotal,
+        discount: 0,
+        total
+    };
+
+    try {
+        const orderData = await createOrderData(customerInfo, cart, pricing);
+        const result = await saveOrderToFirebase(orderData);
+
+        if (result.success) {
+            // Simpan ke localStorage untuk receipt.html
+            localStorage.setItem('amerta_receipt', JSON.stringify({
+                orderId: result.orderId,
+                orderNumber: result.orderNumber,
+                customerName: name,
+                tableNumber: table,
+                cart,
+                pricing
+            }));
+
+            clearCart();
+            showOrderSuccessNotification(orderData);
+            setTimeout(() => {
+                window.location.href = 'receipt.html';
+            }, 1000);
+        } else {
+            showOrderErrorNotification(result.error);
+        }
+
+    } catch (err) {
+        console.error('Gagal proses order:', err);
+        showOrderErrorNotification(err.message);
+    }
+}
+
+// Jalankan setelah DOM siap
+document.addEventListener('DOMContentLoaded', function () {
+    const orderBtn = document.querySelector('.order_btn');
+    if (orderBtn) {
+        orderBtn.addEventListener('click', processOrder);
+    }
+});
