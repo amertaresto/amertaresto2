@@ -242,3 +242,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = document.querySelector('.order_btn');
     if (btn) btn.addEventListener('click', processOrder);
 });
+
+export {
+  createOrderData,
+  saveOrderToFirebase,
+  showOrderSuccessNotification,
+  showOrderErrorNotification,
+  processOrder,
+  getCart,
+  clearCart
+};
