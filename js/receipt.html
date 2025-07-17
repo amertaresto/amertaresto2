@@ -33,8 +33,7 @@
   </div>
 
   <script>
-    <script type="module" src="js/order-manager.js"></script>
-    const data = JSON.parse(localStorage.getItem('latest_order') || '{}');
+    const data = JSON.parse(localStorage.getItem('amerta_receipt') || '{}');
 
     document.getElementById('customerName').textContent = data.customerName || '-';
     document.getElementById('tableNumber').textContent = data.tableNumber || '-';
