@@ -7,7 +7,7 @@ $(document).ready(function() {
     input.val(currentValue + 1);
     updateTotals();
   });
-  
+
   $('.qty_btn.minus').on('click', function() {
     let input = $(this).siblings('.qty_input');
     let currentValue = parseInt(input.val());
@@ -16,26 +16,24 @@ $(document).ready(function() {
       updateTotals();
     }
   });
-  
+
   // Remove item button
   $('.remove_btn').on('click', function() {
     $(this).closest('.cart_item').fadeOut(300, function() {
       $(this).remove();
       updateTotals();
-      
+
       // Check if cart is empty
       if ($('.cart_item').length === 0) {
         $('.cart_items').append('<div class="empty_cart"><p>Keranjang Anda kosong</p></div>');
       }
     });
   });
-  
+
   // Promo code button
   $('.promo_btn').on('click', function() {
     let promoCode = $('.promo_input').val().trim();
     if (promoCode !== '') {
-      // This would typically involve an API call to validate the code
-      // For demo purposes, we'll just apply a fixed discount
       alert('Kode promo berhasil diterapkan!');
       $('.summary_row:nth-child(2) span:last-child').text('-Rp 10.000');
       updateTotals();
@@ -43,70 +41,30 @@ $(document).ready(function() {
       alert('Silakan masukkan kode promo');
     }
   });
-  
-  // Order confirmation button
-  //$('.order_btn').on('click', function() {//
-    $(document).on('click', '.order_btn', function() {
 
-    console.log('Document ready');
-    console.log($('.order_btn').length + ' tombol ditemukan');
-
-
-    e.preventDefault(); // Cegah reload
-    console.log("Tombol diklik");
-    let customerName = $('#customerName').val().trim();
-    let tableNumber = $('#tableNumber').val().trim();
-
-    console.log("Nama:", customerName);
-    console.log("Meja:", tableNumber);
-
-    // HTML tombol dulu -->
-    <button class="order_btn">Konfirmasi Pesanan</button>
-
-    //Baru kemudian script -->
-    <script src="cart.js"></script>
-
-
-    if (customerName === '' || tableNumber === '') {
-      alert('Silakan lengkapi nama dan nomor meja Anda');
-      return;
-    }
-
-
-    
-    // This would typically submit the order to a backend system
-    alert('Pesanan Anda telah dikonfirmasi! Terima kasih telah memesan, ' + customerName + '!');
-  });
-  
-  // Function to update totals (simplified for demo)
+  // Function to update totals
   function updateTotals() {
     let subtotal = 0;
-    
-    // Calculate subtotal from each item
+
     $('.cart_item').each(function() {
       let price = $(this).find('.item_price').text().replace('Rp ', '').replace('.', '');
       let quantity = $(this).find('.qty_input').val();
-      
       subtotal += parseInt(price) * parseInt(quantity);
     });
-    
-    // Format and display subtotal
+
     $('.summary_row:first-child span:last-child').text('Rp ' + formatNumber(subtotal));
-    
-    // Get discount value
+
     let discountText = $('.summary_row:nth-child(2) span:last-child').text().replace('-Rp ', '').replace('.', '');
     let discount = parseInt(discountText) || 0;
-    
-    // Calculate and display total
+
     let total = subtotal - discount;
     $('.summary_row.total span:last-child').text('Rp ' + formatNumber(total));
   }
-  
-  // Format number with thousands separator
+
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
-  
+
   // Initialize totals on page load
   updateTotals();
 });
