@@ -46,9 +46,16 @@ $(document).ready(function() {
   
   // Order confirmation button
   $('.order_btn').on('click', function() {
+    e.preventDefault();
+  console.log("Tombol diklik"); // ← Tambahan
     let customerName = $('#customerName').val().trim();
     let tableNumber = $('#tableNumber').val().trim();
+
+    console.log("Nama:", customerName); // ← Tambahan
+  console.log("Meja:", tableNumber);  // ← Tambahan
     
+    <button type="button" class="order_btn">Proses Pemesanan</button>
+
     if (customerName === '' || tableNumber === '') {
       alert('Silakan lengkapi nama dan nomor meja Anda');
       return;
