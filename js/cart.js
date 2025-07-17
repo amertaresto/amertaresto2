@@ -46,14 +46,22 @@ $(document).ready(function() {
   
   // Order confirmation button
   $('.order_btn').on('click', function() {
+    e.preventDefault(); // Cegah reload
+    console.log("Tombol diklik");
     let customerName = $('#customerName').val().trim();
     let tableNumber = $('#tableNumber').val().trim();
+
+    console.log("Nama:", customerName);
+    console.log("Meja:", tableNumber);
   
 
     if (customerName === '' || tableNumber === '') {
       alert('Silakan lengkapi nama dan nomor meja Anda');
       return;
     }
+
+    <button type="button" class="order_btn">Konfirmasi Pesanan</button>
+
     
     // This would typically submit the order to a backend system
     alert('Pesanan Anda telah dikonfirmasi! Terima kasih telah memesan, ' + customerName + '!');
