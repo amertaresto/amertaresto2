@@ -178,6 +178,25 @@
     showOrderErrorNotification
   } from './js/orders/order-manager.js';
 
+  // Optional: jika ingin renderCartItems di sini
+  function renderCartItems() {
+    const cart = JSON.parse(localStorage.getItem('amerta_cart') || '[]');
+    const container = document.getElementById('cartItemsContainer');
+    container.innerHTML = '';
+
+    if (cart.length === 0) {
+      container.innerHTML = '<p>Keranjang kosong.</p>';
+      return;
+    }
+
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `<strong>${item.name}</strong> - ${item.quantity}x`;
+      container.appendChild(div);
+    });
+  }
+
   function getCart() {
     const cart = localStorage.getItem('amerta_cart');
     return cart ? JSON.parse(cart) : [];
@@ -217,16 +236,13 @@
           orderNumber: result.orderNumber,
           customerName: name,
           tableNumber: table,
-          cart,
-          pricing,
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          items: cart
         }));
 
         clearCart();
         showOrderSuccessNotification(orderData);
-        setTimeout(() => {
-          window.location.href = 'receipt.html';
-        }, 1200);
+        setTimeout(() => window.location.href = 'receipt.html', 1000);
       } else {
         showOrderErrorNotification(result.error);
       }
@@ -236,7 +252,8 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCartItems();
     const btn = document.querySelector('.order_btn');
     if (btn) btn.addEventListener('click', processOrder);
   });
