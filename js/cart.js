@@ -45,7 +45,13 @@ $(document).ready(function() {
   });
   
   // Order confirmation button
-  $('.order_btn').on('click', function() {
+  //$('.order_btn').on('click', function() {//
+    $(document).on('click', '.order_btn', function() {
+
+    console.log('Document ready');
+    console.log($('.order_btn').length + ' tombol ditemukan');
+
+
     e.preventDefault(); // Cegah reload
     console.log("Tombol diklik");
     let customerName = $('#customerName').val().trim();
@@ -53,14 +59,19 @@ $(document).ready(function() {
 
     console.log("Nama:", customerName);
     console.log("Meja:", tableNumber);
-  
+
+    // HTML tombol dulu -->
+    <button class="order_btn">Konfirmasi Pesanan</button>
+
+    //Baru kemudian script -->
+    <script src="cart.js"></script>
+
 
     if (customerName === '' || tableNumber === '') {
       alert('Silakan lengkapi nama dan nomor meja Anda');
       return;
     }
 
-    <button type="button" class="order_btn">Konfirmasi Pesanan</button>
 
     
     // This would typically submit the order to a backend system
